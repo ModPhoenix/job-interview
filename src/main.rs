@@ -10,6 +10,7 @@ use dotenv::dotenv;
 use std::sync::Arc;
 
 mod graphql;
+mod interviews;
 mod questions;
 mod schema;
 mod utils;

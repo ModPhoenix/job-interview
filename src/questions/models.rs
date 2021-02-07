@@ -2,7 +2,6 @@ use crate::schema::questions;
 use crate::utils::database::get_conn;
 use async_graphql::*;
 use diesel::prelude::*;
-use diesel::Queryable;
 
 #[derive(InputObject, Insertable)]
 #[table_name = "questions"]
@@ -11,12 +10,11 @@ pub struct QuestionInput {
   pub body: String,
 }
 
-#[derive(SimpleObject, Queryable)]
+#[derive(SimpleObject, Identifiable, Queryable, PartialEq, Debug)]
 pub struct Question {
   pub id: i32,
   pub title: String,
   pub body: String,
-  pub published: bool,
 }
 
 #[derive(Default)]
