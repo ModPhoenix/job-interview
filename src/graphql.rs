@@ -1,4 +1,4 @@
-use crate::interviews::models::InterviewsQuery;
+use crate::interviews::models::{InterviewsMutation, InterviewsQuery};
 use crate::questions::models::{QuestionsMutation, QuestionsQuery};
 use async_graphql::*;
 
@@ -6,6 +6,6 @@ use async_graphql::*;
 pub struct QueryRoot(QuestionsQuery, InterviewsQuery);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(QuestionsMutation);
+pub struct MutationRoot(QuestionsMutation, InterviewsMutation);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;

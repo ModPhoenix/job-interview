@@ -58,6 +58,13 @@ pub struct InterviewsQuestions {
   question_id: i32,
 }
 
+#[derive(InputObject, Insertable, Debug)]
+#[table_name = "interviews_questions"]
+struct InterviewsQuestionsInput {
+  interview_id: i32,
+  question_id: i32,
+}
+
 #[derive(Default)]
 pub struct InterviewsQuery;
 
@@ -78,7 +85,7 @@ impl InterviewsQuery {
       .limit(limit)
       .offset(offset)
       .load(&get_conn(ctx))
-      .expect("Can't get questions")
+      .expect("Can't get interviews")
   }
 }
 
@@ -103,13 +110,26 @@ impl InterviewsMutation {
 
     let conn = get_conn(ctx);
 
-    conn.transaction(|| {
-      let created_interview_entity = diesel::insert_into(interviews::table)
+    let created_interview_entity = Interview::from(
+      diesel::insert_into(interviews::table)
         .values(&new_interview)
         .get_result(&conn)
-        .expect("Error saving new interview");
+        .expect("Error saving new interview"),
+    );
 
-      Ok(Interview::from(created_interview_entity))
-    })
+    let new_interviews_questions: Vec<InterviewsQuestionsInput> = questions
+      .iter()
+      .map(|id| InterviewsQuestionsInput {
+        interview_id: created_interview_entity.id,
+        question_id: id.clone(),
+      })
+      .collect();
+
+    diesel::insert_into(interviews_questions::table)
+      .values(&new_interviews_questions)
+      .execute(&get_conn(ctx))
+      .expect("Error saving new interviews_questions");
+
+    Ok(created_interview_entity)
   }
 }
