@@ -110,18 +110,16 @@ impl InterviewsMutation {
 
     let conn = get_conn(ctx);
 
-    let created_interview_entity = Interview::from(
-      diesel::insert_into(interviews::table)
-        .values(&new_interview)
-        .get_result(&conn)
-        .expect("Error saving new interview"),
-    );
+    let created_interview_entity: Interview = diesel::insert_into(interviews::table)
+      .values(&new_interview)
+      .get_result(&conn)
+      .expect("Error saving new interview");
 
     let new_interviews_questions: Vec<InterviewsQuestionsInput> = questions
       .iter()
       .map(|id| InterviewsQuestionsInput {
         interview_id: created_interview_entity.id,
-        question_id: id.clone(),
+        question_id: *id,
       })
       .collect();
 

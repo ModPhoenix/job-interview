@@ -59,6 +59,6 @@ impl QuestionsMutation {
       .get_result(&get_conn(ctx))
       .expect("Error saving new post");
 
-    Ok(Question::from(created_question_entity))
+    Ok(created_question_entity)
   }
 }
