@@ -1,7 +1,11 @@
 #[macro_use]
 extern crate diesel;
 
+use crate::graphql::DBLoader;
+use actix_cors::Cors;
+use actix_web::http::header;
 use actix_web::{guard, middleware, web, App, HttpResponse, HttpServer};
+use async_graphql::dataloader::DataLoader;
 use async_graphql::extensions::ApolloTracing;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql::{EmptySubscription, Schema};
@@ -37,6 +41,9 @@ async fn main() -> std::io::Result<()> {
 
   let pool = create_connection_pool();
   let arc_pool = Arc::new(pool);
+  let cloned_pool = Arc::clone(&arc_pool);
+
+  let data_loader = DataLoader::new(DBLoader { pool: cloned_pool });
 
   let schema = Schema::build(
     QueryRoot::default(),
@@ -44,6 +51,7 @@ async fn main() -> std::io::Result<()> {
     EmptySubscription,
   )
   .data(arc_pool)
+  .data(data_loader)
   .extension(ApolloTracing)
   .finish();
 
@@ -52,6 +60,15 @@ async fn main() -> std::io::Result<()> {
       .data(schema.clone())
       // enable logger
       .wrap(middleware::Logger::default())
+      .wrap(
+        Cors::default()
+          .allowed_origin("http://localhost:3000")
+          .allowed_methods(vec!["GET", "POST"])
+          .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+          .allowed_header(header::CONTENT_TYPE)
+          .supports_credentials()
+          .max_age(3600),
+      )
       .service(web::resource("/").guard(guard::Post()).to(index))
       .service(web::resource("/").guard(guard::Get()).to(index_playground))
   })

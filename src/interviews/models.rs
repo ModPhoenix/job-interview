@@ -1,6 +1,8 @@
 use crate::questions::models::Question;
 use crate::schema::{interviews, interviews_questions, questions};
 use crate::utils::database::get_conn;
+use crate::DBLoader;
+use async_graphql::dataloader::DataLoader;
 use async_graphql::*;
 use diesel::prelude::*;
 
@@ -32,6 +34,22 @@ impl Interview {
   }
 
   async fn questions(&self, ctx: &Context<'_>) -> Vec<Question> {
+    // let data_loader = ctx
+    //   .data::<DataLoader<DBLoader>>()
+    //   .expect("Can't get data loader");
+
+    // // let details = data_loader.load_one(planet_id).await?;
+
+    // let ids: Vec<i32> = vec![1, 2];
+    // let ids_iter = ids.iter();
+
+    // let questions_entities = data_loader
+    //   .load_many(&ids_iter)
+    //   .await
+    //   .expect("Can't get data loader");
+
+    // let result: String = questions_entities.ok_or_else(|| "Not found".into());
+
     InterviewsQuestions::belonging_to(self)
       .inner_join(questions::table)
       .select(questions::all_columns)
@@ -112,8 +130,7 @@ impl InterviewsMutation {
 
     let created_interview_entity: Interview = diesel::insert_into(interviews::table)
       .values(&new_interview)
-      .get_result(&conn)
-      .expect("Error saving new interview");
+      .get_result(&conn)?;
 
     let new_interviews_questions: Vec<InterviewsQuestionsInput> = questions
       .iter()
@@ -125,8 +142,7 @@ impl InterviewsMutation {
 
     diesel::insert_into(interviews_questions::table)
       .values(&new_interviews_questions)
-      .execute(&get_conn(ctx))
-      .expect("Error saving new interviews_questions");
+      .execute(&get_conn(ctx))?;
 
     Ok(created_interview_entity)
   }

@@ -71,6 +71,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "actix-cors"
+version = "0.5.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36b133d8026a9f209a9aeeeacd028e7451bcca975f592881b305d37983f303d7"
+dependencies = [
+ "actix-web",
+ "derive_more",
+ "futures-util",
+ "log",
+ "once_cell",
+ "tinyvec",
+]
+
+[[package]]
 name = "actix-http"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -167,13 +181,13 @@ dependencies = [
 
 [[package]]
 name = "actix-rt"
-version = "2.0.0"
+version = "2.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1383863521ba9c31eafb2d88f57416fb9f13ed9a86081cd07bdef9b19775926"
+checksum = "c88cf46527e27f66efcd5831f60b3d9c2dac795b6d255ed17791752d6c36a8ea"
 dependencies = [
  "actix-macros 0.2.0",
  "futures-core",
- "tokio 1.1.1",
+ "tokio 1.2.0",
 ]
 
 [[package]]
@@ -387,9 +401,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql"
-version = "2.5.1"
+version = "2.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22d4f25567e154225dc45689d9751de8c353df4ff9e278507d997c56f16939dd"
+checksum = "37b42e163bc8d5dc81a43c185916ab24a0ca72636558cadc2ccefe39381695b3"
 dependencies = [
  "async-graphql-derive",
  "async-graphql-parser",
@@ -427,9 +441,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-actix-web"
-version = "2.5.1"
+version = "2.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90a2e78de593625ae670bfc862d120bf3bec643ed1e7b5f9dd85cfeb19ac6a8b"
+checksum = "8779d025ea3d079ef7a59105b7d24f5ecb5508e2a0d767d4a62fd72f548bde8e"
 dependencies = [
  "actix",
  "actix-http",
@@ -1369,7 +1383,8 @@ checksum = "dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736"
 name = "job-interview"
 version = "0.1.0"
 dependencies = [
- "actix-rt 2.0.0",
+ "actix-cors",
+ "actix-rt 2.0.2",
  "actix-web",
  "async-graphql",
  "async-graphql-actix-web",
@@ -2077,9 +2092,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.61"
+version = "1.0.62"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fceb2595057b6891a4ee808f70054bd2d12f0e97f1cbb78689b59f676df325a"
+checksum = "ea1c6153794552ea7cf7cf63b1231a25de00ec90db326ba6264440fa08e31486"
 dependencies = [
  "indexmap",
  "itoa",
@@ -2409,9 +2424,9 @@ dependencies = [
 
 [[package]]
 name = "tokio"
-version = "1.1.1"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6714d663090b6b0acb0fa85841c6d66233d150cdb2602c8f9b8abb03370beb3f"
+checksum = "e8190d04c665ea9e6b6a0dc45523ade572c088d2e6566244c1122671dbf4ae3a"
 dependencies = [
  "autocfg",
  "libc",
