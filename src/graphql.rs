@@ -13,5 +13,5 @@ pub struct MutationRoot(QuestionsMutation, InterviewsMutation);
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
 pub struct DBLoader {
-  pub pool: Arc<PgPool>,
+    pub pool: Arc<PgPool>,
 }

@@ -8,20 +8,19 @@ use std::sync::Arc;
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 
 pub fn create_connection_pool() -> PgPool {
-  let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-  let manager = ConnectionManager::<PgConnection>::new(database_url);
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
 
-  Pool::builder()
-    .build(manager)
-    .expect("Failed to create pool")
+    Pool::builder()
+        .build(manager)
+        .expect("Failed to create pool")
 }
 
 type Conn = PooledConnection<ConnectionManager<PgConnection>>;
 
 pub fn get_conn(ctx: &Context<'_>) -> Conn {
-  ctx
-    .data::<Arc<PgPool>>()
-    .expect("Can't get pool")
-    .get()
-    .expect("Can't get DB connection")
+    ctx.data::<Arc<PgPool>>()
+        .expect("Can't get pool")
+        .get()
+        .expect("Can't get DB connection")
 }
