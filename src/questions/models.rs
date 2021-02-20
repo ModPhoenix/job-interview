@@ -64,6 +64,13 @@ impl QuestionsMutation {
 
         Ok(created_question_entity)
     }
+
+    /// Mutation returns 1 if deleted question by id or 0 if question not found
+    async fn delete_question(&self, ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
+        use crate::schema::questions::dsl::*;
+
+        Ok(diesel::delete(questions.filter(id.eq(&question_id))).execute(&get_conn(ctx))?)
+    }
 }
 
 // pub fn get_details(planet_ids: &[i32], conn: &PgConnection) -> QueryResult<Vec<DetailsEntity>> {
