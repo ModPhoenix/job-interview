@@ -31,17 +31,17 @@ impl QuestionsQuery {
         ctx: &Context<'_>,
         limit: Option<i32>,
         offset: Option<i32>,
-    ) -> Vec<Question> {
+    ) -> Result<Vec<Question>, Error> {
         use crate::schema::questions::dsl::*;
 
         let limit: i64 = limit.unwrap_or(50).into();
         let offset: i64 = offset.unwrap_or(0).into();
 
-        questions
+        Ok(questions
+            .order(id.desc())
             .limit(limit)
             .offset(offset)
-            .load(&get_conn(ctx))
-            .expect("Can't get questions")
+            .load(&get_conn(ctx))?)
     }
 }
 
@@ -60,8 +60,7 @@ impl QuestionsMutation {
 
         let created_question_entity = diesel::insert_into(questions::table)
             .values(&new_question)
-            .get_result(&get_conn(ctx))
-            .expect("Error saving new post");
+            .get_result(&get_conn(ctx))?;
 
         Ok(created_question_entity)
     }
