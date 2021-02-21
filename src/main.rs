@@ -17,6 +17,7 @@ mod graphql;
 mod interviews;
 mod questions;
 mod schema;
+mod users;
 mod utils;
 
 use self::graphql::{AppSchema, MutationRoot, QueryRoot};

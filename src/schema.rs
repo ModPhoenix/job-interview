@@ -23,6 +23,18 @@ table! {
     }
 }
 
+table! {
+    users (id) {
+        id -> Int4,
+        hash -> Bytea,
+        salt -> Varchar,
+        email -> Varchar,
+        role -> Varchar,
+        name -> Varchar,
+        created_at -> Timestamp,
+    }
+}
+
 joinable!(interviews_questions -> interviews (interview_id));
 joinable!(interviews_questions -> questions (question_id));
 
@@ -30,4 +42,5 @@ allow_tables_to_appear_in_same_query!(
     interviews,
     interviews_questions,
     questions,
+    users,
 );

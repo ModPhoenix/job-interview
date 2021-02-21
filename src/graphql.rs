@@ -1,14 +1,17 @@
-use crate::interviews::models::{InterviewsMutation, InterviewsQuery};
-use crate::questions::models::{QuestionsMutation, QuestionsQuery};
-use crate::utils::database::PgPool;
+use crate::{
+    interviews::models::{InterviewsMutation, InterviewsQuery},
+    questions::models::{QuestionsMutation, QuestionsQuery},
+    users::models::{UsersMutation, UsersQuery},
+    utils::database::PgPool,
+};
 use async_graphql::*;
 use std::sync::Arc;
 
 #[derive(MergedObject, Default)]
-pub struct QueryRoot(QuestionsQuery, InterviewsQuery);
+pub struct QueryRoot(UsersQuery, QuestionsQuery, InterviewsQuery);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(QuestionsMutation, InterviewsMutation);
+pub struct MutationRoot(UsersMutation, QuestionsMutation, InterviewsMutation);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
