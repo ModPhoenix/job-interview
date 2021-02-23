@@ -2,38 +2,24 @@
 extern crate diesel;
 
 use crate::graphql::DBLoader;
+use crate::handlers::{index, index_playground};
 use actix_cors::Cors;
-use actix_web::http::header;
-use actix_web::{guard, middleware, web, App, HttpResponse, HttpServer};
-use async_graphql::dataloader::DataLoader;
-use async_graphql::extensions::ApolloTracing;
-use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use async_graphql::{EmptySubscription, Schema};
-use async_graphql_actix_web::{Request, Response};
+use actix_web::{guard, http::header, middleware, web, App, HttpServer};
+use async_graphql::{dataloader::DataLoader, extensions::ApolloTracing, EmptySubscription, Schema};
 use dotenv::dotenv;
 use std::sync::Arc;
 
+mod auth;
 mod graphql;
+mod handlers;
 mod interviews;
 mod questions;
 mod schema;
 mod users;
 mod utils;
 
-use self::graphql::{AppSchema, MutationRoot, QueryRoot};
+use self::graphql::{MutationRoot, QueryRoot};
 use self::utils::database::create_connection_pool;
-
-async fn index(schema: web::Data<AppSchema>, req: Request) -> Response {
-    schema.execute(req.into_inner()).await.into()
-}
-
-async fn index_playground() -> HttpResponse {
-    HttpResponse::Ok()
-        .content_type("text/html; charset=utf-8")
-        .body(playground_source(
-            GraphQLPlaygroundConfig::new("/").subscription_endpoint("/"),
-        ))
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

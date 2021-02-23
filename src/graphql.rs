@@ -1,4 +1,5 @@
 use crate::{
+    auth::schema::AuthMutation,
     interviews::models::{InterviewsMutation, InterviewsQuery},
     questions::models::{QuestionsMutation, QuestionsQuery},
     users::models::{UsersMutation, UsersQuery},
@@ -11,7 +12,12 @@ use std::sync::Arc;
 pub struct QueryRoot(UsersQuery, QuestionsQuery, InterviewsQuery);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(UsersMutation, QuestionsMutation, InterviewsMutation);
+pub struct MutationRoot(
+    AuthMutation,
+    UsersMutation,
+    QuestionsMutation,
+    InterviewsMutation,
+);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 

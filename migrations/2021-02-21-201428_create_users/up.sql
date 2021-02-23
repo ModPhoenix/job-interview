@@ -4,7 +4,7 @@ CREATE TABLE users (
     salt VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     role VARCHAR(32) NOT NULL DEFAULT 'user',
-    name VARCHAR NOT NULL,
+    name VARCHAR NOT NULL UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 

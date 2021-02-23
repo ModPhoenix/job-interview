@@ -1,7 +1,5 @@
-use super::models::{LoggedUser, User};
-// use crate::errors::ServiceError;
+use super::models::User;
 use argon2rs::argon2i_simple;
-use async_graphql::Error;
 
 pub fn make_salt() -> String {
     use rand::Rng;
@@ -28,14 +26,4 @@ pub fn verify(user: &User, password: &str) -> bool {
     let User { hash, salt, .. } = user;
 
     make_hash(password, salt) == hash.as_ref()
-}
-
-pub fn has_role(user: &LoggedUser, role: &str) -> Result<bool, Error> {
-    match user.0 {
-        Some(ref user) if user.role == role => Ok(true),
-        _ => Err(Error {
-            message: "Unauthorized".to_string(),
-            extensions: None,
-        }),
-    }
 }

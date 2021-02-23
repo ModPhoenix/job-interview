@@ -1,5 +1,7 @@
+use crate::auth::models::{Role, RoleGuard};
 use crate::schema::users;
 use crate::utils::database::get_conn;
+use async_graphql::guard::Guard;
 use async_graphql::*;
 use chrono::*;
 use diesel::prelude::*;
@@ -9,9 +11,10 @@ use super::utils::{make_hash, make_salt};
 #[derive(Debug, Queryable, SimpleObject, Clone)]
 pub struct User {
     pub id: i32,
-    #[graphql(visible = false)]
+    // #[graphql(visible = false)]
+    #[graphql(guard(RoleGuard(role = "Role::Admin")))]
     pub hash: Vec<u8>,
-    #[graphql(visible = false)]
+    // #[graphql(visible = false)]
     pub salt: String,
     pub email: String,
     pub role: String,
@@ -54,7 +57,7 @@ impl From<UserData> for InsertableUser {
             created_at: chrono::Local::now().naive_local(),
             salt,
             name,
-            role: "user".to_owned(),
+            role: "Admin".to_owned(),
         }
     }
 }
