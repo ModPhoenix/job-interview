@@ -1,3 +1,9 @@
+# Auth
+
+mutation SignIn($input: SignInInput!) {
+  signIn(input: $input)
+}
+
 query Questions {
   questions {
     id
