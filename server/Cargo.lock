@@ -181,9 +181,9 @@ dependencies = [
 
 [[package]]
 name = "actix-rt"
-version = "2.0.2"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c88cf46527e27f66efcd5831f60b3d9c2dac795b6d255ed17791752d6c36a8ea"
+checksum = "0b4e57bc1a3915e71526d128baf4323700bd1580bc676239e2298a4c5b001f18"
 dependencies = [
  "actix-macros 0.2.0",
  "futures-core",
@@ -420,9 +420,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql"
-version = "2.5.7"
+version = "2.5.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e87af58717a11bfa811a113d14cf932b0f647ab2545817d3ecab7797b7219094"
+checksum = "edb6452d1fa6ba93adaf40aed4ecab1dc0fb51b80d94240584576e82bd3dfea5"
 dependencies = [
  "async-graphql-derive",
  "async-graphql-parser",
@@ -460,9 +460,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-actix-web"
-version = "2.5.7"
+version = "2.5.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b487660492bf96e7f7bc238a416c738ee911ca5eba3ca26921ebb15f42aaf45"
+checksum = "af660ced3e9ed903d43e8b84aab01af3598855ae5ac77e306b3b5520e6bb1869"
 dependencies = [
  "actix",
  "actix-http",
@@ -477,9 +477,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-derive"
-version = "2.5.5"
+version = "2.5.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c4acb9b57a51fe179e8b4b6eeebe25bd8ebf60a8f0e692a3746b700c8b693ac5"
+checksum = "23c4dbe1a704b8bb7bc4260b2e4e1c373ffab1f6ffd96cc4dbde880378752e0b"
 dependencies = [
  "Inflector",
  "async-graphql-parser",
@@ -493,9 +493,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-parser"
-version = "2.5.5"
+version = "2.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "928bf3e2d8e7cac1701a61fe8f12a8e60433c97731e224884bbaf04738c40dca"
+checksum = "53e2f7bc6173bf7a30def040a0b541d87cb044da90ec3c8d23de7b47185379ea"
 dependencies = [
  "async-graphql-value",
  "pest",
@@ -506,9 +506,9 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-value"
-version = "2.0.5"
+version = "2.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57d3aa3cd3696ffd8decb10f5053affc78cb33ecfc545e480072bbc600e6723d"
+checksum = "3f8134ed15d6ebe6025977026a9dcfac18f94c99d762fccc2df6a4a7f7f1226f"
 dependencies = [
  "serde",
  "serde_json",
@@ -935,9 +935,9 @@ dependencies = [
 
 [[package]]
 name = "diesel"
-version = "1.4.5"
+version = "1.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e2de9deab977a153492a1468d1b1c0662c1cf39e5ea87d0c060ecd59ef18d8c"
+checksum = "047bfc4d5c3bd2ef6ca6f981941046113524b9a9f9a7cbdfdd7ff40f58e6f542"
 dependencies = [
  "bitflags",
  "byteorder",
@@ -1420,7 +1420,7 @@ name = "job-interview"
 version = "0.1.0"
 dependencies = [
  "actix-cors",
- "actix-rt 2.0.2",
+ "actix-rt 2.1.0",
  "actix-web",
  "argon2rs",
  "async-graphql",
@@ -2187,18 +2187,18 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.123"
+version = "1.0.124"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92d5161132722baa40d802cc70b15262b98258453e85e5d1d365c757c73869ae"
+checksum = "bd761ff957cb2a45fbb9ab3da6512de9de55872866160b23c25f1a841e99d29f"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.123"
+version = "1.0.124"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9391c295d64fc0abb2c556bad848f33cb8296276b1ad2677d1ae1ace4f258f31"
+checksum = "1800f7693e94e186f5e25a28291ae1570da908aff7d97a095dec1e56ff99069b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2207,9 +2207,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.62"
+version = "1.0.64"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ea1c6153794552ea7cf7cf63b1231a25de00ec90db326ba6264440fa08e31486"
+checksum = "799e97dc9fdae36a5c8b8f2cae9ce2ee9fdce2058c57a93e6099d919fd982f79"
 dependencies = [
  "indexmap",
  "itoa",

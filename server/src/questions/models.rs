@@ -26,7 +26,7 @@ pub struct QuestionsQuery;
 
 #[Object]
 impl QuestionsQuery {
-    async fn get_questions(
+    async fn questions(
         &self,
         ctx: &Context<'_>,
         limit: Option<i32>,
@@ -68,6 +68,8 @@ impl QuestionsMutation {
     /// Mutation returns 1 if deleted question by id or 0 if question not found
     async fn delete_question(&self, ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
         use crate::schema::questions::dsl::*;
+
+        println!("question_id {}", question_id);
 
         Ok(diesel::delete(questions.filter(id.eq(&question_id))).execute(&get_conn(ctx))?)
     }

@@ -88,7 +88,7 @@ pub struct InterviewsQuery;
 
 #[Object]
 impl InterviewsQuery {
-    async fn get_interviews(
+    async fn interviews(
         &self,
         ctx: &Context<'_>,
         limit: Option<i32>,

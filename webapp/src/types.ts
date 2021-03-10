@@ -15,5 +15,5 @@ export interface Questions {
 }
 
 export interface QuestionsData {
-  getQuestions: Questions[];
+  questions: Questions[];
 }
