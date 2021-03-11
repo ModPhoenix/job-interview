@@ -1,6 +1,7 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { Logo } from "..";
 
 const Header = styled.header`
   display: flex;
@@ -15,7 +16,7 @@ const Header = styled.header`
 
 const Nav = styled.nav``;
 
-const Logo = styled.div`
+const Brand = styled.div`
   flex-basis: 20%;
 `;
 
@@ -49,7 +50,9 @@ const ItemLink = styled(NavLink)`
 function Navbar(): ReactElement {
   return (
     <Header>
-      <Logo>🧑🏻‍💻 Job interview</Logo>
+      <Brand>
+        <Logo /> Job interview
+      </Brand>
       <Nav>
         <NavList>
           <NavListItem>
