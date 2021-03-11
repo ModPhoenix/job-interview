@@ -9,8 +9,10 @@ const ButtonW = styled.button`
   height: 36px;
   padding-left: 16px;
   padding-right: 16px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
   text-transform: uppercase;
-  font-weight: bold;
   color: ${({ theme }) => theme.colors.onPrimary};
   border-radius: ${({ theme }) => theme.borderRadius};
   background-color: ${({ theme }) => theme.colors.primary};

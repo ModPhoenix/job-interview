@@ -5,7 +5,8 @@ export const TextFieldW = styled.input`
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   color: #fff;

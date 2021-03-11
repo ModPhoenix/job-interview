@@ -38,11 +38,11 @@ const ItemLink = styled(NavLink)`
   text-decoration: none;
 
   :hover {
-    color: ${(p) => p.theme.colors.onPrimary};
+    color: ${(p) => p.theme.colors.onBackground};
   }
 
   &.active {
-    color: ${(p) => p.theme.colors.onPrimary};
+    color: ${(p) => p.theme.colors.onBackground};
   }
 `;
 
