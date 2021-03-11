@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Navbar } from "./components";
 import { SignInPage } from "./features/auth";
 import { QuestionsPage } from "./features/questions";
+import { Path } from "./settings";
 
 function App() {
   return (
@@ -9,9 +10,9 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/sign-in" component={SignInPage} />
-          <Route path="/questions" component={QuestionsPage} />
-          <Route path="/">
+          <Route path={Path.signIn} component={SignInPage} />
+          <Route path={Path.questions} component={QuestionsPage} />
+          <Route path={Path.home}>
             <div>home</div>
           </Route>
         </Switch>

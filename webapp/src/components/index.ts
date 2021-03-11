@@ -6,3 +6,4 @@ export { default as Editor} from './Editor';
 export { default as Paper} from './Paper';
 export { default as H1} from './H1';
 export { default as Logo} from './Logo';
+export { default as HelperText} from './HelperText';

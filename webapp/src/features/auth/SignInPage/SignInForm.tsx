@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { Button } from "../../../components";
+import { Button, HelperText } from "../../../components";
 import TextField, { TextFieldW } from "../../../components/Fields/TextField";
 import { SignInInput } from "../../../generated";
 
@@ -12,14 +12,24 @@ const Form = styled.form`
   ${TextFieldW} {
     margin-bottom: 24px;
   }
+
+  ${HelperText} {
+    margin-bottom: 16px;
+    text-align: center;
+  }
 `;
 
 interface Props {
   onSubmit: (data: SignInInput) => Promise<void>;
+  errorMessage: string | undefined;
 }
 
-export function SignInForm({ onSubmit }: Props): ReactElement {
-  const { handleSubmit, control } = useForm<SignInInput>({
+export function SignInForm({ onSubmit, errorMessage }: Props): ReactElement {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+  } = useForm<SignInInput>({
     mode: "onBlur",
     defaultValues: {
       username: "",
@@ -55,7 +65,11 @@ export function SignInForm({ onSubmit }: Props): ReactElement {
         }}
       />
 
-      <Button type="submit">Sign In</Button>
+      {errorMessage && <HelperText error>{errorMessage}</HelperText>}
+
+      <Button type="submit" disabled={isSubmitting}>
+        Sign In
+      </Button>
     </Form>
   );
 }

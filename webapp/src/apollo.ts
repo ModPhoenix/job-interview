@@ -10,4 +10,7 @@ const cache = new InMemoryCache({
 export const apolloClient = new ApolloClient({
   uri: "http://localhost:8000/",
   cache,
+  defaultOptions: {
+    mutate: { errorPolicy: "all" },
+  },
 });
