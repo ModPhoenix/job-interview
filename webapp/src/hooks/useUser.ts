@@ -4,19 +4,15 @@ import { AccessToken } from "../types";
 
 function useUser() {
   const accessToken = localStorage.getItem(accessTokenKey);
-  let username;
+  
+  let decoded;
 
   if (accessToken) {
-    const decoded = jwt_decode<AccessToken>(accessToken);
-
-    console.log('decoded :>> ', decoded);
-
-    username = decoded.sub;
+    decoded = jwt_decode<AccessToken>(accessToken);
   }
 
-
   return {
-    username
+    username: decoded?.sub,
   }
 }
 
