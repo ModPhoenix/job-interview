@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Button, Editor, PageLayout } from "../../../components";
 import QuestionList from "../QuestionList";
 import { TextField } from "../../../components/Fields";
-import { useQuestionsQuery } from "../../../generated-types";
+import { useQuestionsQuery } from "../../../generated";
 
 const CREATE_QUESTION = gql`
   mutation CreateQuestion($title: String!, $body: String!) {

@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { TypedTypePolicies } from "./apollo-helpers";
+import { TypedTypePolicies } from "./generated";
 
 const typePolicies: TypedTypePolicies = {};
 
