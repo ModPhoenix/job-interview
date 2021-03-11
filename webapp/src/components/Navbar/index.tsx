@@ -15,9 +15,14 @@ const Header = styled.header`
 
 const Nav = styled.nav``;
 
-const Logo = styled.div``;
+const Logo = styled.div`
+  flex-basis: 20%;
+`;
 
-const RightContent = styled.div``;
+const RightContent = styled.div`
+  flex-basis: 20%;
+  text-align: end;
+`;
 
 const NavList = styled.ul`
   display: flex;
@@ -29,15 +34,15 @@ const NavListItem = styled.li`
 `;
 
 const ItemLink = styled(NavLink)`
-  color: rgba(255, 255, 255, 0.5);
+  color: ${(p) => p.theme.colors.onPrimary2};
   text-decoration: none;
 
   :hover {
-    color: #fff;
+    color: ${(p) => p.theme.colors.onPrimary};
   }
 
   &.active {
-    color: #fff;
+    color: ${(p) => p.theme.colors.onPrimary};
   }
 `;
 

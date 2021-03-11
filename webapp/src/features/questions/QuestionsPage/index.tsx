@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
-import { Editor, PageLayout } from "../../../components";
+import { Button, Editor, PageLayout } from "../../../components";
 import { QuestionsData } from "../../../types";
 import QuestionList from "../QuestionList";
 import { TextField } from "../../../components/Fields";
@@ -95,7 +95,7 @@ function QuestionsPage(): ReactElement {
               onChange={onChangeQuestion}
             />
             <Editor value={value} onChange={setValue} />
-            <button type="submit">Add Question</button>
+            <Button type="submit">Add Question</Button>
           </form>
         </LeftContainer>
         <RightContainer>
