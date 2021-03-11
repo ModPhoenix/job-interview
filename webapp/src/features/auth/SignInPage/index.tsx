@@ -33,9 +33,9 @@ function SignInPage(): ReactElement {
 
   return (
     <SignInPageW>
-      <Logo />
-      <H1>Sign in to your account</H1>
       <Paper>
+        <Logo />
+        <H1>Sign in to your account</H1>
         <SignInForm onSubmit={onSubmit} errorMessage={error?.message} />
       </Paper>
     </SignInPageW>

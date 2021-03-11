@@ -2,6 +2,8 @@ import React, { ReactElement } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Logo } from "..";
+import { useUser } from "../../hooks";
+import NavSignIn from "./NavSignIn";
 
 const Header = styled.header`
   display: flex;
@@ -48,6 +50,8 @@ const ItemLink = styled(NavLink)`
 `;
 
 function Navbar(): ReactElement {
+  const { username } = useUser();
+
   return (
     <Header>
       <Brand>
@@ -67,7 +71,9 @@ function Navbar(): ReactElement {
           </NavListItem>
         </NavList>
       </Nav>
-      <RightContent>👩‍🏭</RightContent>
+      <RightContent>
+        {username ? <span>👩‍🏭 {username}</span> : <NavSignIn />}
+      </RightContent>
     </Header>
   );
 }

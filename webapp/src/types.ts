@@ -1,5 +1,12 @@
 import { ApolloError } from "@apollo/client";
 
+export interface AccessToken {
+  exp: number;
+  iat: number;
+  role: string;
+  sub: string;
+}
+
 export type QueryError = ApolloError | undefined;
 
 export interface QueryStateData<T> {
