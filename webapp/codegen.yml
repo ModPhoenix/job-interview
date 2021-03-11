@@ -5,8 +5,14 @@ generates:
   src/generated/types.ts:
     plugins:
       - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
+  src/generated/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: types.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
   src/generated/graphql.schema.json:
     plugins:
       - "introspection"
