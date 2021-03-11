@@ -1,6 +1,6 @@
-import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Navbar } from "./components";
+import { SignInPage } from "./features/auth";
 import { QuestionsPage } from "./features/questions";
 
 function App() {
@@ -9,9 +9,8 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/questions">
-            <QuestionsPage />
-          </Route>
+          <Route path="/sign-in" component={SignInPage} />
+          <Route path="/questions" component={QuestionsPage} />
           <Route path="/">
             <div>home</div>
           </Route>

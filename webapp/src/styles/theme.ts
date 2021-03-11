@@ -4,9 +4,9 @@ export const theme: DefaultTheme = {
   colors: {
     primary: "#fff",
     background: "#000",
-    surface: "#000",
+    surface: "#212121",
     error: "#b00020",
-    onPrimary: "#fff",
+    onPrimary: "#000",
     onPrimary2: "#ffffffb3",
     onBackground: "#fff",
     onSurface: "#fff",
@@ -18,5 +18,6 @@ export const theme: DefaultTheme = {
     modal: 1300,
     snackbar: 1400,
     tooltip: 1500,
-  }
+  },
+  borderRadius: "2px",
 };

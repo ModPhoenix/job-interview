@@ -20,5 +20,6 @@ declare module 'styled-components' {
       snackbar: number
       tooltip: number
     }
+    borderRadius: string;
   }
 }

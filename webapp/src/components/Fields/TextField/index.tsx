@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactElement } from "react";
 import styled from "styled-components";
 
-const Input = styled.input`
+export const TextFieldW = styled.input`
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
@@ -15,7 +15,7 @@ const Input = styled.input`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border-radius: 0.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius};
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   :focus {
@@ -27,10 +27,12 @@ const Input = styled.input`
   }
 `;
 
-interface Props extends InputHTMLAttributes<Omit<HTMLInputElement, "type">> {}
+interface Props extends InputHTMLAttributes<Omit<HTMLInputElement, "type">> {
+  inputRef?: React.MutableRefObject<HTMLInputElement>;
+}
 
-function TextField({ ...rest }: Props): ReactElement {
-  return <Input type="text" {...rest} />;
+function TextField({ inputRef, ...rest }: Props): ReactElement {
+  return <TextFieldW ref={inputRef} type="text" {...rest} />;
 }
 
 export default TextField;

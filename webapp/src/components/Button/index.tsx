@@ -10,7 +10,10 @@ const ButtonW = styled.button`
   padding-left: 16px;
   padding-right: 16px;
   text-transform: uppercase;
-  border-radius: 2px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background-color: ${({ theme }) => theme.colors.primary};
   border: 0;
   outline: 0;
 `;
