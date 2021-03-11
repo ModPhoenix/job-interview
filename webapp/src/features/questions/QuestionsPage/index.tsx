@@ -1,20 +1,10 @@
 import React, { ChangeEvent, ReactElement, useState } from "react";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Button, Editor, PageLayout } from "../../../components";
-import { QuestionsData } from "../../../types";
 import QuestionList from "../QuestionList";
 import { TextField } from "../../../components/Fields";
-
-export const GET_QUESTIONS = gql`
-  query GetQuestions {
-    getQuestions {
-      id
-      title
-      body
-    }
-  }
-`;
+import { useQuestionsQuery } from "../../../generated-types";
 
 const CREATE_QUESTION = gql`
   mutation CreateQuestion($title: String!, $body: String!) {
@@ -48,16 +38,17 @@ function QuestionsPage(): ReactElement {
   const [question, setQuestion] = useState("");
   const [value, setValue] = useState("**Hello world!!!**");
 
-  const { loading, error, data } = useQuery<QuestionsData>(GET_QUESTIONS);
+  const { loading, error, data } = useQuestionsQuery();
+
   const [createQuestion] = useMutation(CREATE_QUESTION, {
     update(cache, { data: { createQuestion } }) {
       cache.modify({
         fields: {
-          getQuestions(existingQuestions = []) {
+          questions(existingQuestions = []) {
             const newQuestionRef = cache.writeFragment({
               data: createQuestion,
               fragment: gql`
-                fragment NewQuestion on getQuestions {
+                fragment NewQuestion on questions {
                   id
                   title
                   body

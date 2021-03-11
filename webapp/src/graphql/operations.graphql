@@ -1,0 +1,31 @@
+# Auth
+
+mutation SignIn($input: SignInInput!) {
+  signIn(input: $input)
+}
+
+query Questions {
+  questions {
+    id
+    title
+    body
+  }
+}
+
+mutation CreateQuestion($title: String!, $body: String!) {
+  createQuestion(title: $title, body: $body) {
+    id
+    title
+    body
+  }
+}
+
+fragment NewQuestion on Question {
+  id
+  title
+  body
+}
+
+mutation DeleteQuestion($questionId: Int!) {
+  deleteQuestion(questionId: $questionId)
+}

@@ -24,7 +24,7 @@ function QuestionList(props: QueryStateData<QuestionsData>): ReactElement {
       update: (cache) => {
         cache.modify({
           fields: {
-            getQuestions(existingQuestionsRefs, { readField }) {
+            questions(existingQuestionsRefs, { readField }) {
               return existingQuestionsRefs.filter(
                 (commentRef: any) => questionId !== readField("id", commentRef)
               );
@@ -39,7 +39,7 @@ function QuestionList(props: QueryStateData<QuestionsData>): ReactElement {
     <QuestionListW>
       <QueryState {...props}>
         {data &&
-          data.getQuestions.map((question) => (
+          data.questions.map((question) => (
             <QuestionItem
               key={question.id}
               question={question}
