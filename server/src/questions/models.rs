@@ -1,8 +1,14 @@
 use crate::graphql::DBLoader;
 use crate::schema::questions;
 use crate::utils::database::get_conn;
+use crate::{
+    auth::models::{Claims, Role, RoleGuard},
+    users::models::User,
+};
 use async_graphql::dataloader::Loader;
+use async_graphql::guard::Guard;
 use async_graphql::*;
+use chrono::NaiveDateTime;
 use diesel::dsl::any;
 use diesel::prelude::*;
 use std::collections::HashMap;
@@ -10,15 +16,52 @@ use std::collections::HashMap;
 #[derive(InputObject, Insertable)]
 #[table_name = "questions"]
 pub struct QuestionInput {
+    pub user_id: i32,
     pub title: String,
     pub body: String,
 }
 
-#[derive(SimpleObject, Identifiable, Queryable, PartialEq, Clone, Debug)]
+#[derive(Identifiable, Queryable, PartialEq, Clone, Debug)]
 pub struct Question {
     pub id: i32,
+    pub user_id: i32,
     pub title: String,
     pub body: String,
+    pub updated_at: NaiveDateTime,
+    pub created_at: NaiveDateTime,
+}
+
+#[Object]
+impl Question {
+    async fn id(&self) -> i32 {
+        self.id
+    }
+
+    async fn title(&self) -> String {
+        self.title.to_string()
+    }
+
+    async fn body(&self) -> String {
+        self.body.to_string()
+    }
+
+    async fn updated_at(&self) -> NaiveDateTime {
+        self.updated_at
+    }
+
+    async fn created_at(&self) -> NaiveDateTime {
+        self.created_at
+    }
+
+    async fn user(&self, ctx: &Context<'_>) -> Result<User, Error> {
+        use crate::schema::users::dsl::*;
+
+        let user = users
+            .filter(id.eq(self.user_id))
+            .first::<User>(&get_conn(ctx))?;
+
+        Ok(user)
+    }
 }
 
 #[derive(Default)]
@@ -50,13 +93,22 @@ pub struct QuestionsMutation;
 
 #[Object]
 impl QuestionsMutation {
+    #[graphql(guard(RoleGuard(role = "Role::User")))]
     async fn create_question(
         &self,
         ctx: &Context<'_>,
         title: String,
         body: String,
     ) -> Result<Question, Error> {
-        let new_question = QuestionInput { title, body };
+        let claims = &ctx.data::<Claims>()?;
+
+        println!("ctx_data claims {:?}", claims);
+
+        let new_question = QuestionInput {
+            user_id: claims.sub,
+            title,
+            body,
+        };
 
         let created_question_entity = diesel::insert_into(questions::table)
             .values(&new_question)
@@ -69,17 +121,9 @@ impl QuestionsMutation {
     async fn delete_question(&self, ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
         use crate::schema::questions::dsl::*;
 
-        println!("question_id {}", question_id);
-
         Ok(diesel::delete(questions.filter(id.eq(&question_id))).execute(&get_conn(ctx))?)
     }
 }
-
-// pub fn get_details(planet_ids: &[i32], conn: &PgConnection) -> QueryResult<Vec<DetailsEntity>> {
-//     details::table
-//         .filter(details::planet_id.eq(any(planet_ids)))
-//         .load::<DetailsEntity>(conn)
-// }
 
 #[async_trait::async_trait]
 impl Loader<i32> for DBLoader {
@@ -93,8 +137,6 @@ impl Loader<i32> for DBLoader {
             .filter(questions::id.eq(any(keys)))
             .load(&conn)
             .expect("Can't get questions");
-
-        // let details = repository::get_details(keys, &conn).expect("Can't get planets' details");
 
         Ok(questions_entities
             .iter()

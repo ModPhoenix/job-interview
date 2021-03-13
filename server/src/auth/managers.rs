@@ -11,12 +11,13 @@ lazy_static! {
         std::env::var("JWT_SECRET_KEY").expect("Can't read JWT_SECRET_KEY");
 }
 
-pub fn create_token(username: String, role: Role) -> String {
+pub fn create_token(user_id: i32, username: String, role: Role) -> String {
     let iat = Local::now();
     let exp = iat + Duration::minutes(60);
 
     let claims = Claims {
-        sub: username,
+        sub: user_id,
+        username: username.to_string(),
         iat: iat.timestamp(),
         exp: exp.timestamp(),
         role: role.to_string(),
@@ -30,12 +31,16 @@ pub fn create_token(username: String, role: Role) -> String {
     .expect("Can't create token")
 }
 
-pub fn get_role(http_request: HttpRequest) -> Option<Role> {
+pub fn get_claims_from_request(http_request: HttpRequest) -> Option<Claims> {
     let token = http_request
         .headers()
         .get("Authorization")
         .and_then(|header_value| {
             header_value.to_str().ok().map(|s| {
+                if s.is_empty() {
+                    return s.to_string();
+                }
+
                 let jwt_start_index = "Bearer ".len();
                 let jwt = s[jwt_start_index..s.len()].to_string();
                 return jwt;
@@ -44,13 +49,14 @@ pub fn get_role(http_request: HttpRequest) -> Option<Role> {
 
     if let Some(jwt) = token {
         let token_data = decode_token(&jwt).ok()?;
-        println!("{:?}", token_data);
-        let role = Role::from_str(&token_data.claims.role).expect("Can't parse role");
-        println!("{:?}", role);
-        Some(role)
+        Some(token_data.claims)
     } else {
         None
     }
+}
+
+pub fn get_role(claims: &Claims) -> Role {
+    Role::from_str(&claims.role).expect("Can't parse role")
 }
 
 fn decode_token(token: &str) -> Result<TokenData<Claims>, Error> {

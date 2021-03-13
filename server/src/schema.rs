@@ -18,8 +18,11 @@ table! {
 table! {
     questions (id) {
         id -> Int4,
+        user_id -> Int4,
         title -> Text,
         body -> Text,
+        updated_at -> Timestamp,
+        created_at -> Timestamp,
     }
 }
 
@@ -37,6 +40,7 @@ table! {
 
 joinable!(interviews_questions -> interviews (interview_id));
 joinable!(interviews_questions -> questions (question_id));
+joinable!(questions -> users (user_id));
 
 allow_tables_to_appear_in_same_query!(
     interviews,

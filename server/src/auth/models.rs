@@ -7,13 +7,13 @@ pub struct Claims {
     // issuer
     // pub iss: String,
     // subject
-    pub sub: String,
+    pub sub: i32,
     // issued at
     pub iat: i64,
     // expiry
     pub exp: i64,
-    // user email
-    // pub email: String,
+    // username
+    pub username: String,
     // user role
     pub role: String,
 }
@@ -32,7 +32,9 @@ pub struct RoleGuard {
 #[async_trait::async_trait]
 impl Guard for RoleGuard {
     async fn check(&self, ctx: &Context<'_>) -> Result<()> {
-        if ctx.data_opt::<Role>() == Some(&self.role) {
+        let role: Option<&Role> = ctx.data_opt();
+
+        if role == Some(&self.role) || role == Some(&Role::Admin) {
             Ok(())
         } else {
             Err("Forbidden".into())

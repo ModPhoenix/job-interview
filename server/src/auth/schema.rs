@@ -29,11 +29,9 @@ impl AuthMutation {
         if let Some(user) = maybe_user {
             let is_verify = verify(&user, &input.password);
 
-            println!("{}", user.role.as_str());
-
             if is_verify {
                 let role = Role::from_str(user.role.to_uppercase().as_str())?;
-                return Ok(create_token(user.name, role));
+                return Ok(create_token(user.id, user.name, role));
             }
         }
 
