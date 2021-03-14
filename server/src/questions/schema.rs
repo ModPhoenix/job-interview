@@ -1,8 +1,12 @@
+use async_graphql::guard::Guard;
 use async_graphql::*;
 use async_graphql::{Context, Error, Object};
 use chrono::NaiveDateTime;
 
-use crate::users::models::User;
+use crate::{
+    auth::models::{Role, RoleGuard},
+    users::models::User,
+};
 
 use super::models::Question;
 
@@ -45,5 +49,26 @@ impl QuestionsQuery {
         offset: Option<i32>,
     ) -> Result<Vec<Question>, Error> {
         Question::list(ctx, limit, offset)
+    }
+}
+
+#[derive(Default)]
+pub struct QuestionsMutation;
+
+#[Object]
+impl QuestionsMutation {
+    #[graphql(guard(RoleGuard(role = "Role::User")))]
+    async fn create_question(
+        &self,
+        ctx: &Context<'_>,
+        title: String,
+        body: String,
+    ) -> Result<Question, Error> {
+        Question::create(ctx, title, body)
+    }
+
+    /// Mutation returns 1 if deleted question by id or 0 if question not found
+    async fn delete_question(&self, ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
+        Question::delete(ctx, question_id)
     }
 }

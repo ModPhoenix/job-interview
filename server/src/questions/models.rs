@@ -1,12 +1,8 @@
 use crate::graphql::DBLoader;
 use crate::schema::questions;
 use crate::utils::database::get_conn;
-use crate::{
-    auth::models::{Claims, Role, RoleGuard},
-    users::models::User,
-};
+use crate::{auth::models::Claims, users::models::User};
 use async_graphql::dataloader::Loader;
-use async_graphql::guard::Guard;
 use async_graphql::*;
 use chrono::NaiveDateTime;
 use diesel::dsl::any;
@@ -32,6 +28,24 @@ pub struct Question {
 }
 
 impl Question {
+    pub fn create(ctx: &Context<'_>, title: String, body: String) -> Result<Question, Error> {
+        let claims = &ctx.data::<Claims>()?;
+
+        println!("ctx_data claims {:?}", claims);
+
+        let new_question = QuestionInput {
+            user_id: claims.sub,
+            title,
+            body,
+        };
+
+        let created_question_entity = diesel::insert_into(questions::table)
+            .values(&new_question)
+            .get_result(&get_conn(ctx))?;
+
+        Ok(created_question_entity)
+    }
+
     pub fn list(
         ctx: &Context<'_>,
         limit: Option<i32>,
@@ -58,39 +72,8 @@ impl Question {
 
         Ok(user)
     }
-}
 
-#[derive(Default)]
-pub struct QuestionsMutation;
-
-#[Object]
-impl QuestionsMutation {
-    #[graphql(guard(RoleGuard(role = "Role::User")))]
-    async fn create_question(
-        &self,
-        ctx: &Context<'_>,
-        title: String,
-        body: String,
-    ) -> Result<Question, Error> {
-        let claims = &ctx.data::<Claims>()?;
-
-        println!("ctx_data claims {:?}", claims);
-
-        let new_question = QuestionInput {
-            user_id: claims.sub,
-            title,
-            body,
-        };
-
-        let created_question_entity = diesel::insert_into(questions::table)
-            .values(&new_question)
-            .get_result(&get_conn(ctx))?;
-
-        Ok(created_question_entity)
-    }
-
-    /// Mutation returns 1 if deleted question by id or 0 if question not found
-    async fn delete_question(&self, ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
+    pub fn delete(ctx: &Context<'_>, question_id: i32) -> Result<usize, Error> {
         use crate::schema::questions::dsl::*;
 
         Ok(diesel::delete(questions.filter(id.eq(&question_id))).execute(&get_conn(ctx))?)
