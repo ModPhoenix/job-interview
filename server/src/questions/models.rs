@@ -31,46 +31,8 @@ pub struct Question {
     pub created_at: NaiveDateTime,
 }
 
-#[Object]
 impl Question {
-    async fn id(&self) -> i32 {
-        self.id
-    }
-
-    async fn title(&self) -> String {
-        self.title.to_string()
-    }
-
-    async fn body(&self) -> String {
-        self.body.to_string()
-    }
-
-    async fn updated_at(&self) -> NaiveDateTime {
-        self.updated_at
-    }
-
-    async fn created_at(&self) -> NaiveDateTime {
-        self.created_at
-    }
-
-    async fn user(&self, ctx: &Context<'_>) -> Result<User, Error> {
-        use crate::schema::users::dsl::*;
-
-        let user = users
-            .find(self.user_id)
-            .get_result::<User>(&get_conn(ctx))?;
-
-        Ok(user)
-    }
-}
-
-#[derive(Default)]
-pub struct QuestionsQuery;
-
-#[Object]
-impl QuestionsQuery {
-    async fn questions(
-        &self,
+    pub fn list(
         ctx: &Context<'_>,
         limit: Option<i32>,
         offset: Option<i32>,
@@ -85,6 +47,16 @@ impl QuestionsQuery {
             .limit(limit)
             .offset(offset)
             .load(&get_conn(ctx))?)
+    }
+
+    pub fn creator(&self, ctx: &Context<'_>) -> Result<User, Error> {
+        use crate::schema::users::dsl::*;
+
+        let user = users
+            .find(self.user_id)
+            .get_result::<User>(&get_conn(ctx))?;
+
+        Ok(user)
     }
 }
 

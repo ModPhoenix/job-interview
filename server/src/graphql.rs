@@ -1,7 +1,7 @@
 use crate::{
     auth::schema::AuthMutation,
     interviews::models::{InterviewsMutation, InterviewsQuery},
-    questions::models::{QuestionsMutation, QuestionsQuery},
+    questions::{models::QuestionsMutation, schema::QuestionsQuery},
     users::models::{UsersMutation, UsersQuery},
     utils::database::PgPool,
 };
