@@ -57,8 +57,8 @@ impl Question {
         use crate::schema::users::dsl::*;
 
         let user = users
-            .filter(id.eq(self.user_id))
-            .first::<User>(&get_conn(ctx))?;
+            .find(self.user_id)
+            .get_result::<User>(&get_conn(ctx))?;
 
         Ok(user)
     }
